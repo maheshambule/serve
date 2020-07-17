@@ -72,11 +72,9 @@ class ApacheBenchmarkExecutor(ApacheBenchmarkExecutor):
                 file_path = os.devnull
                 self.log.warning("No file path specified, dev null will be used instead")
             args += [options[request.method], file_path]
-
             content_type = request.config['content-type'] or mimetypes.guess_type(file_path)[0]
             if content_type:
                 args += ['-T', content_type]
-
         elif request.method in ['OPTION', 'DELETE']:
             args += ['-m', request.method]
 
