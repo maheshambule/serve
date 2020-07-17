@@ -8,6 +8,7 @@ from math import ceil
 from distutils.version import LooseVersion
 
 from bzt import TaurusConfigError
+from bzt.modules.aggregator import ConsolidatingAggregator
 from bzt.six import iteritems
 from bzt.utils import dehumanize_time
 from bzt.modules.ab import ApacheBenchmarkExecutor, TSVDataReader
@@ -17,6 +18,20 @@ class ApacheBenchmarkExecutor(ApacheBenchmarkExecutor):
     """
     Apache Benchmark executor module
     """
+
+    def prepare(self):
+        super(ApacheBenchmarkExecutor, self).prepare()
+        self.scenario = self.get_scenario()
+        self.install_required_tools()
+
+        self._tsv_file = self.engine.create_artifact("ab", ".tsv")
+
+        self.stdout = open(self.engine.create_artifact("ab", ".out"), 'w')
+        self.stderr = open(self.engine.create_artifact("ab", ".err"), 'w')
+
+        self.reader = TSVDataReader(self._tsv_file, self.log)
+        if isinstance(self.engine.aggregator, ConsolidatingAggregator):
+            self.engine.aggregator.add_underling(self.reader)
 
     def startup(self):
         args = [self.tool.tool_path]
@@ -75,7 +90,7 @@ class ApacheBenchmarkExecutor(ApacheBenchmarkExecutor):
             content_type = request.config['content-type'] or mimetypes.guess_type(file_path)[0]
             if content_type:
                 args += ['-T', content_type]
-        elif request.method in ['OPTION', 'DELETE']:
+        else: # 'GET', 'OPTIONS', 'DELETE', etc
             args += ['-m', request.method]
 
         if request.priority_option('keepalive', default=True):
