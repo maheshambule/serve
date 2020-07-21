@@ -30,8 +30,8 @@
       - "rm ${INPUT_IMG_PATH}"
       - "ssh ubuntu@172.31.55.180 rm -r /tmp/ts_model_store"
 #      - "ssh ubuntu@172.31.55.180 mv logs ${ARTIFACTS_DIR}/model_server_logs"
-  - module: monitoring
-    server-agent:
+  - module: server_monitoring
+    ServerRemoteClient:
       - address: 172.31.55.180:9009
         label: model-server
         interval: 1s

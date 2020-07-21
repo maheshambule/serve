@@ -42,6 +42,7 @@ class Monitor(monitoring.Monitoring):
     def __init__(self):
         super(Monitor, self).__init__()
         self.client_classes.update({'ServerLocalClient': ServerLocalClient})
+        self.client_classes.update({'ServerRemoteClient': ServerRemoteClient})
 
 
 class ServerLocalClient(monitoring.LocalClient):
@@ -85,6 +86,12 @@ class ServerLocalClient(monitoring.LocalClient):
                     metrics = ['ts'] + sorted([metric for metric in good_list])
                     logs_writer.writerow(metrics)
 
+
+class ServerRemoteClient(monitoring.ServerAgentClient):
+    """Custom server remote client """
+    def get_data(self):
+        result = super().get_data(self)
+        return result
 
 class ServerLocalMonitor(monitoring.LocalMonitor):
     """Custom server local monitor"""
