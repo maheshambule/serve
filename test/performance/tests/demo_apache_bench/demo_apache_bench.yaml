@@ -38,9 +38,9 @@
         logging: True
         metrics:
           - sum_workers_memory_rss
-          - sum_frontend_memory_rss
+          - frontend_memory_rss
           - sum_workers_file_descriptors
-          - sum_frontend_file_descriptors
+          - frontend_file_descriptors
           - total_workers
           - total_processes
 
