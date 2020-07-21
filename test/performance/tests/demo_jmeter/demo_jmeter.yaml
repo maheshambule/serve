@@ -11,7 +11,7 @@
     - url: http://172.31.55.180:8080/predictions/${SQZNET_NAME}
       label: ${API_LABEL}
       method: POST
-      file-path: ${INPUT_IMG_PATH}
+      body-file: ${INPUT_IMG_PATH}
 
 ~services:
   - module: shellexec
