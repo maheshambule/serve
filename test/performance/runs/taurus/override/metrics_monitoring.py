@@ -100,6 +100,7 @@ class ServerRemoteClient(monitoring.ServerAgentClient):
             self.log.info("{0}".format(" -- ".join(msg)))
         return result
 
+
 class ServerLocalMonitor(monitoring.LocalMonitor):
     """Custom server local monitor"""
 
