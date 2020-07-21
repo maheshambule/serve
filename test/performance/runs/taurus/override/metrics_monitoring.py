@@ -90,7 +90,15 @@ class ServerLocalClient(monitoring.LocalClient):
 class ServerRemoteClient(monitoring.ServerAgentClient):
     """Custom server remote client """
     def get_data(self):
-        result = super().get_data(self)
+        result = super().get_data()
+
+        # Logging for custom metric values
+        for res in result:
+            msg = []
+            for metric_name, metric_value in res.items():
+                msg.append("{0} : {1}".format(metric_name, metric_value))
+            self.log.info("{0}".format(" -- ".join(msg)))
+
         return result
 
 class ServerLocalMonitor(monitoring.LocalMonitor):
