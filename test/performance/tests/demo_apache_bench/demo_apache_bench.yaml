@@ -1,5 +1,5 @@
 ~execution:
-  - executor: jmeter
+  - executor: apache_bench
     concurrency: ${CONCURRENCY}
     ramp-up: ${RAMP-UP}
     hold-for: ${HOLD-FOR}
