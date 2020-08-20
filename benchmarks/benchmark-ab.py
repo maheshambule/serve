@@ -192,7 +192,7 @@ def docker_torchserve_start():
     execute('docker rm -f ts', wait=True)
 
     click.secho(f"*Starting docker container of image {docker_image} ...", fg='green')
-    docker_run_cmd = f"docker run {execution_params['docker_runtime']} {backend_profiling} --name ts --user root -p 8080:8080 -p 8081:8081 " \
+    docker_run_cmd = f"docker run {execution_params['docker_runtime']} {backend_profiling} -e OMP_NUM_THREADS=4 --name ts --user root -p 8080:8080 -p 8081:8081 " \
                      f"-v /tmp:/tmp {enable_gpu} -itd {docker_image} " \
                      f"\"torchserve --start --model-store /home/model-server/model-store " \
                      f"--ts-config /tmp/benchmark/conf/config.properties > /tmp/benchmark/logs/model_metrics.log\""
