@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TorchServe &mdash; PyTorch/Serve master documentation</title>
+  <title>TorchServe on Windows &mdash; PyTorch/Serve master documentation</title>
   
 
   
@@ -213,10 +213,12 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">TorchServe</a><ul>
-<li><a class="reference internal" href="#basic-features">Basic Features</a></li>
-<li><a class="reference internal" href="#advanced-features">Advanced Features</a></li>
-<li><a class="reference internal" href="#default-handlers">Default Handlers</a></li>
+<li><a class="reference internal" href="#">TorchServe on Windows</a><ul>
+<li><a class="reference internal" href="#contents-of-this-document">Contents of this Document</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#install-from-binaries">Install from binaries</a></li>
+<li><a class="reference internal" href="#install-from-source">Install from source</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -251,7 +253,7 @@
   <ul class="pytorch-breadcrumbs">
     
       <li>
-        <a href="#">
+        <a href="index.html">
           
             Docs
           
@@ -259,13 +261,13 @@
       </li>
 
         
-      <li>TorchServe</li>
+      <li>TorchServe on Windows</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
         
             
-            <a href="_sources/index.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+            <a href="_sources/torchserve_on_win_native.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
           
         
       </li>
@@ -291,49 +293,80 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <div class="section" id="torchserve">
-<h1>TorchServe<a class="headerlink" href="#torchserve" title="Permalink to this headline">¶</a></h1>
-<p>TorchServe is a flexible and easy to use tool for serving PyTorch models.</p>
-<p><strong>WARNING:</strong> TorchServe is experimental and subject to change.</p>
-<div class="section" id="basic-features">
-<h2>Basic Features<a class="headerlink" href="#basic-features" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="torchserve-on-windows">
+<h1>TorchServe on Windows<a class="headerlink" href="#torchserve-on-windows" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="contents-of-this-document">
+<h2>Contents of this Document<a class="headerlink" href="#contents-of-this-document" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/README.md#serve-a-model">Serving Quick Start</a> - Basic server usage tutorial</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/tree/master/model-archiver#creating-a-model-archive">Model Archive Quick Start</a> - Tutorial that shows you how to package a model archive file.</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/README.md#install-torchserve">Installation</a> - Installation procedures</p></li>
-<li><p><a class="reference internal" href="server.html"><span class="doc">Serving Models</span></a> - Explains how to use torchserve</p>
-<ul>
-<li><p><a class="reference internal" href="rest_api.html"><span class="doc">REST API</span></a> - Specification on the API endpoint for TorchServe</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/tree/master/model-archiver#torch-model-archiver-for-torchserve">Packaging Model Archive</a> - Explains how to package model archive file, use <code class="docutils literal notranslate"><span class="pre">model-archiver</span></code>.</p></li>
-<li><p><a class="reference internal" href="logging.html"><span class="doc">Logging</span></a> - How to configure logging</p></li>
-<li><p><a class="reference internal" href="metrics.html"><span class="doc">Metrics</span></a> - How to configure metrics</p>
-<ul>
-<li><p><a class="reference internal" href="metrics_api.html"><span class="doc">Metrics API</span></a> - How to configure metrics API</p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="batch_inference_with_ts.html"><span class="doc">Batch inference with TorchServe</span></a> - How to create and serve a model with batch inference in TorchServe</p></li>
-<li><p><a class="reference internal" href="model_zoo.html"><span class="doc">Model Zoo</span></a> - List of pre-trained model archives ready to be served for inference with TorchServe.</p></li>
+<li><p><a class="reference external" href="#prerequisites">Prerequisites</a></p></li>
+<li><p><a class="reference external" href="#install-from-binaries">Install from binaries</a></p></li>
+<li><p><a class="reference external" href="#install-from-source">Install from source</a></p></li>
 </ul>
 </div>
-<div class="section" id="advanced-features">
-<h2>Advanced Features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="configuration.html"><span class="doc">Advanced configuration</span></a> - Describes advanced TorchServe configurations.</p></li>
-<li><p><a class="reference internal" href="custom_service.html"><span class="doc">Custom Service</span></a> - Describes how to develop custom inference services.</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/tree/master/ts/tests#testing-torchserve">Unit Tests</a> - Housekeeping unit tests for TorchServe.</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/tree/master/benchmarks#torchserve-model-server-benchmarking">Benchmark</a> - Use JMeter to run TorchServe through the paces and collect benchmark data.</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/kubernetes/README.md#torchserve-on-kubernetes">TorchServe on Kubernetes</a> -  Demonstrates a Torchserve deployment in Kubernetes using Helm Chart.</p></li>
+<li><p>At present, it has only been certified on windows server 2019 however should work fine on Windows 10.</p></li>
+<li><p>Make sure you are an admin user or have admin rights</p></li>
+<li><p>The instruction given here will use anaconda Powershell terminal to install torchserve</p></li>
+<li><p>Install Anaconda as given <a class="reference external" href="https://docs.anaconda.com/anaconda/install/windows/">here</a></p></li>
+<li><p>Install Git as given <a class="reference external" href="https://github.com/git-for-windows/git/releases/download/v2.28.0.windows.1/Git-2.28.0-64-bit.exe">here</a></p></li>
+<li><p>Install openjdk11</p>
+<ul>
+<li><p>Download <a class="reference external" href="https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_windows-x64_bin.zip">openjdk11</a></p></li>
+<li><p>Unzip and edit/add environment variables i.e. PATH and JAVA_HOME
+e.g.</p></li>
+<li><p>Using command line <code class="docutils literal notranslate"><span class="pre">unzip</span> <span class="pre">openjdk-11*_bin.zip</span></code> or using GUI interface</p></li>
+<li><p>Edit system or user profile environment variable <code class="docutils literal notranslate"><span class="pre">PATH</span></code> value and append path <code class="docutils literal notranslate"><span class="pre">&lt;your-openjdk11-path&gt;\bin</span></code> to it</p></li>
+</ul>
+</li>
 </ul>
 </div>
-<div class="section" id="default-handlers">
-<h2>Default Handlers<a class="headerlink" href="#default-handlers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-from-binaries">
+<h2>Install from binaries<a class="headerlink" href="#install-from-binaries" title="Permalink to this headline">¶</a></h2>
+<p>NOTE At present, wheels for windows are not available on PyPi. However following steps can also be used if you have prebuilt torchserve wheel for windows.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/ts/torch_handler/image_classifier.py">Image Classifier</a> - This handler takes an image and returns the name of object in that image</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/ts/torch_handler/text_classifier.py">Text Classifier</a> - This handler takes a text (string) as input and returns the classification text based on the model vocabulary</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/ts/torch_handler/object_detector.py">Object Detector</a> - This handler takes an image and returns list of detected classes and bounding boxes respectively</p></li>
-<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/ts/torch_handler/image_segmenter.py">Image Segmenter</a>- This handler takes an image and returns output shape as [CL H W], CL - number of classes, H - height and W - width</p></li>
+<li><p>Start ‘Anaconda Powershell Prompt’ (APP) as Admin User i.e. By right click on APP and run following commands</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/pytorch/serve.git</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">serve</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">-r</span> <span class="pre">requirements_cpu.txt</span></code></p></li>
+<li><p>For local wheel file</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&lt;your-torchserve-wheel-file-name&gt;.whl</span></code></p></li>
+</ul>
+</li>
+<li><p>For PyPi package (N/A at present)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">torchserve</span> <span class="pre">torch-model-archiver</span></code></p></li>
+</ul>
+</li>
+<li><p>Start torchserve <code class="docutils literal notranslate"><span class="pre">torchserve.exe</span> <span class="pre">--start</span> <span class="pre">--model-store</span> <span class="pre">&lt;path-to-model-store&gt;</span></code></p></li>
+<li><p>For next steps refer <a class="reference external" href="https://github.com/pytorch/serve#serve-a-model">Serving a model</a></p></li>
+</ul>
+</div>
+<div class="section" id="install-from-source">
+<h2>Install from source<a class="headerlink" href="#install-from-source" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Add system or user profile environment variable name <code class="docutils literal notranslate"><span class="pre">JAVA_HOME</span></code> and value as <code class="docutils literal notranslate"><span class="pre">&lt;your-openjdk11-path&gt;</span></code></p></li>
+<li><p>Install <a class="reference external" href="https://support.microsoft.com/en-in/help/2977003/the-latest-supported-visual-c-downloads">Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019</a></p>
+<p>NOTE ensure that you have restarted system after install above Visual C++ components</p>
+</li>
+<li><p>Start ‘Anaconda Powershell Prompt’ (APP) as Admin User i.e. By right click on APP and run following commands</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/pytorch/serve.git</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">click</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">serve</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">.\ts_scripts\install_from_src.py</span></code></p></li>
+<li><p>Refer <a class="reference external" href="https://github.com/pytorch/serve#install-torchserve-for-development">Install torchserve for development</a></p></li>
+</ul>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>If you are building from source then you may have to change the port number for inference, management and metrics apis as specified in <code class="docutils literal notranslate"><span class="pre">frontend/server/src/test/resources/config.properties</span></code>,
+all files in <code class="docutils literal notranslate"><span class="pre">frontend/server/src/test/resources/snapshot/*</span></code> and <code class="docutils literal notranslate"><span class="pre">frontend/server/src/main/java/org/pytorch/serve/util/ConfigManager.java</span></code></p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">curl</span></code> command fails to execute then run following command on APP (anaconda powershell promopt)
+<code class="docutils literal notranslate"><span class="pre">Remove-item</span> <span class="pre">alias:curl</span></code>
+Refer this <a class="reference external" href="https://stackoverflow.com/questions/25044010/running-curl-on-64-bit-windows">SO answer</a> for details.</p></li>
 </ul>
 </div>
 </div>
@@ -372,10 +405,12 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">TorchServe</a><ul>
-<li><a class="reference internal" href="#basic-features">Basic Features</a></li>
-<li><a class="reference internal" href="#advanced-features">Advanced Features</a></li>
-<li><a class="reference internal" href="#default-handlers">Default Handlers</a></li>
+<li><a class="reference internal" href="#">TorchServe on Windows</a><ul>
+<li><a class="reference internal" href="#contents-of-this-document">Contents of this Document</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#install-from-binaries">Install from binaries</a></li>
+<li><a class="reference internal" href="#install-from-source">Install from source</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
