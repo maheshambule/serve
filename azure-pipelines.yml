@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-data-science-vm'
+  vmImage: 'Windows'
 
 steps:
 - script: echo Hello, world!
