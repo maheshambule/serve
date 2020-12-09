@@ -26,16 +26,32 @@ steps:
  
 - script:  python torchserve_sanity.py
   displayName: 'run sanity suite'
+  
+- task: CopyFiles@2
+  inputs:
+    contents: 'frontend/server/build/reports/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)/frontend/server/build/reports/
+  condition: succeededOrFailed()
+
 
 - script:  python test/regression_tests.py
   displayName: 'run regression suite'
 
 - task: CopyFiles@2
   inputs:
-    contents: 'frontend/server/build/reports/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)
+    contents: 'test/pytest/logs/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)/test/pytest/logs/
+  condition: succeededOrFailed()
+
+- task: CopyFiles@2
+  inputs:
+    contents: 'logs/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)/logs/
+  condition: succeededOrFailed()
+
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
     artifactName: frontend_build_reports
+
   
