@@ -9,7 +9,15 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
+
+
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
