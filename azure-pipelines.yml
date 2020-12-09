@@ -10,7 +10,6 @@ pool:
   vmImage: 'windows-2019'
 
 
-
 steps:
 - task: JavaToolInstaller@0
   inputs:
@@ -18,20 +17,15 @@ steps:
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: python --version
-  displayName: 'check python version'
-  
-- script:  java -version
-  displayName: 'check java version'
-
 - script:  python ts_scripts/install_dependencies.py --cuda=cu101 --environment=dev
   displayName: 'run install_dependencies'
-  
+
+- script:  python ts_scripts/install_from_src.py 
+  displayName: 'run install from source'
  
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- script:  python torchserve_sanity.py
+  displayName: 'run sanity suite'
+
+- script:  python test/regression_tests.py
+  displayName: 'run regression suite'
+  
