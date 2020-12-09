@@ -45,8 +45,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    contents: 'logs/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)/logs/
+    contents: 'test/artifacts/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)/test/artifacts/
   condition: succeededOrFailed()
 
 - task: PublishBuildArtifacts@1
@@ -55,4 +55,9 @@ steps:
     artifactName: frontend_build_reports
   condition: succeededOrFailed()
 
-  
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'current'
+    downloadType: 'specific'
+    downloadPath: '$(System.ArtifactsDirectory)'
+    
