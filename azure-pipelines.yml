@@ -53,5 +53,6 @@ steps:
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
     artifactName: frontend_build_reports
+  condition: succeededOrFailed()
 
   
