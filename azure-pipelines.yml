@@ -16,7 +16,7 @@ steps:
 - script: python --version
   displayName: 'check python version'
   
-- script:  java --version
+- script:  java -version
   displayName: 'check java version'
 
 - script:  npm install -g newman newman-reporter-html markdown-link-check
