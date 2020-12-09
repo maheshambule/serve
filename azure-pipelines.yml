@@ -27,8 +27,8 @@ steps:
 # - script:  python torchserve_sanity.py
 #   displayName: 'run sanity suite'
 
-- script:  |
-   mkdir -p frontend/server/build/reports/
+- script: |
+   mkdir frontend/server/build/reports/
    echo "asd" > frontend/server/build/reports/1.log
   displayName: 'run sanity suite'
 
@@ -42,13 +42,13 @@ steps:
 # - script:  python test/regression_tests.py
 #   displayName: 'run regression suite'
 
-- script:  |
-   mkdir -p test/pytest/logs/
+- script: |
+   mkdir p test/pytest/logs/
    echo "asd" > test/pytest/logs/2.log
   displayName: 'run sanity suite'
 
-- script:  |
-   mkdir -p test/artifacts/
+- script: |
+   mkdir p test/artifacts/
    echo "asd" > test/artifacts/3.log
   displayName: 'run sanity suite'
 
@@ -75,4 +75,5 @@ steps:
     buildType: 'current'
     downloadType: 'specific'
     downloadPath: '$(System.ArtifactsDirectory)'
+  condition: succeededOrFailed()
     
