@@ -27,8 +27,8 @@ steps:
 - script:  java -version
   displayName: 'check java version'
 
-- script:  npm install -g newman newman-reporter-html markdown-link-check
-  displayName: 'install npm packages'
+- script:  python ts_scripts/install_dependencies.py --cuda=cu101 --environment=dev
+  displayName: 'run install_dependencies'
   
  
 - script: |
