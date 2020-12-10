@@ -35,7 +35,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     contents: 'frontend/server/build/reports/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)/frontend/server/build/reports/
+    targetFolder: $(Build.ArtifactStagingDirectory)
   condition: succeededOrFailed()
 
 
@@ -55,13 +55,13 @@ steps:
 - task: CopyFiles@2
   inputs:
     contents: 'test/pytest/logs/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)/test/pytest/logs/
+    targetFolder: $(Build.ArtifactStagingDirectory)
   condition: succeededOrFailed()
 
 - task: CopyFiles@2
   inputs:
     contents: 'test/artifacts/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)/test/artifacts/
+    targetFolder: $(Build.ArtifactStagingDirectory)
   condition: succeededOrFailed()
 
 - task: PublishBuildArtifacts@1
