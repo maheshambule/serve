@@ -12,24 +12,19 @@ pool:
 
 steps:
 
-# - task: JavaToolInstaller@0
-#   inputs:
-#     versionSpec: '11'
-#     jdkArchitectureOption: 'x64'
-#     jdkSourceOption: 'PreInstalled'
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
 
-# - script:  python ts_scripts/install_dependencies.py --cuda=cu101 --environment=dev
-#   displayName: 'run install_dependencies'
+- script:  python ts_scripts/install_dependencies.py --cuda=cu101 --environment=dev
+  displayName: 'run install_dependencies'
 
-# - script:  python ts_scripts/install_from_src.py 
-#   displayName: 'run install from source'
+- script:  python ts_scripts/install_from_src.py 
+  displayName: 'run install from source'
  
-# - script:  python torchserve_sanity.py
-#   displayName: 'run sanity suite'
-
-- script: | 
-   mkdir frontend\server\build\reports\
-   echo "asd" > frontend\server\build\reports\1.log
+- script:  python torchserve_sanity.py
   displayName: 'run sanity suite'
 
 - task: CopyFiles@2
@@ -39,18 +34,8 @@ steps:
   condition: succeededOrFailed()
 
 
-# - script:  python test/regression_tests.py
-#   displayName: 'run regression suite'
-
-- script: |
-   mkdir  test\pytest\logs\
-   echo "asd" > test\pytest\logs\2.log
-  displayName: 'run sanity suite'
-
-- script: |
-   mkdir p test\artifacts\
-   echo "asd" > test\artifacts\3.log
-  displayName: 'run sanity suite'
+- script:  python test/regression_tests.py
+  displayName: 'run regression suite'
 
 - task: CopyFiles@2
   inputs:
