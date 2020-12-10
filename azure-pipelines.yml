@@ -27,7 +27,9 @@ steps:
 # - script:  python torchserve_sanity.py
 #   displayName: 'run sanity suite'
 
-- script: mkdir frontend\server\build\reports\
+- script: | 
+   mkdir frontend\server\build\reports\
+   echo "asd" > frontend\server\build\reports\1.log
   displayName: 'run sanity suite'
 
 - task: CopyFiles@2
