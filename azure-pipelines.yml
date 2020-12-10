@@ -29,7 +29,6 @@ steps:
 
 - script: |
    mkdir frontend/server/build/reports/
-   echo "asd" > frontend/server/build/reports/1.log
   displayName: 'run sanity suite'
 
 - task: CopyFiles@2
