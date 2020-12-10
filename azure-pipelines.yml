@@ -43,13 +43,13 @@ steps:
 #   displayName: 'run regression suite'
 
 - script: |
-   mkdir p test/pytest/logs/
-   echo "asd" > test/pytest/logs/2.log
+   mkdir  test\pytest\logs\
+   echo "asd" > test\pytest\logs\2.log
   displayName: 'run sanity suite'
 
 - script: |
-   mkdir p test/artifacts/
-   echo "asd" > test/artifacts/3.log
+   mkdir p test\artifacts\
+   echo "asd" > test\artifacts\3.log
   displayName: 'run sanity suite'
 
 - task: CopyFiles@2
