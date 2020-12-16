@@ -12,14 +12,15 @@ pool:
 
 steps:
 
-- script:  python ts_scripts/install_dependencies.py --cuda=cu101 --environment=dev
-  displayName: 'run install_dependencies'
+- powershell: python --version
+# - script:  python ts_scripts/install_dependencies.py --cuda=cu101 --environment=dev
+#   displayName: 'run install_dependencies'
 
-- script:  python ts_scripts/install_from_src.py 
-  displayName: 'run install from source'
+# - script:  python ts_scripts/install_from_src.py 
+#   displayName: 'run install from source'
  
-- script:  python torchserve_sanity.py
-  displayName: 'run sanity suite'
+# - script:  python torchserve_sanity.py
+#   displayName: 'run sanity suite'
 
 - task: CopyFiles@2
   inputs:
