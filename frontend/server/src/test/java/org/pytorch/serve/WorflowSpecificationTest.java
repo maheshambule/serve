@@ -22,7 +22,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-public class EnsembleTest {
+public class WorflowSpecificationTest {
 
     private static final String ERROR_NOT_FOUND =
             "Requested resource is not found, please refer to API document.";
@@ -147,6 +147,37 @@ public class EnsembleTest {
             dag.addEdge(c, f);
             dag.addEdge(d, f);
             dag.addEdge(f, b);
+            System.out.println(dag.validate());
+            Assert.assertTrue(false);
+        } catch (Exception exp) {
+            Assert.assertTrue(true);
+        }
+    }
+
+
+    @Test(alwaysRun = true)
+    public void testInvalidDAGOrphanNodes() {
+        Dag dag = new Dag();
+
+        Node a = new Node("a", new WorkflowModel("a", "url", 1, 1, 10, 50, null));
+        Node b = new Node("b", new WorkflowModel("b", "url", 1, 1, 10, 50, null));
+        Node c = new Node("c", new WorkflowModel("c", "url", 1, 1, 10, 50, null));
+        Node d = new Node("d", new WorkflowModel("d", "url", 1, 1, 10, 50, null));
+        Node e = new Node("e", new WorkflowModel("e", "url", 1, 1, 10, 50, null));
+        Node f = new Node("f", new WorkflowModel("f", "url", 1, 1, 10, 50, null));
+
+        dag.addNode(a);
+        dag.addNode(b);
+        dag.addNode(c);
+        dag.addNode(d);
+        dag.addNode(e);
+        dag.addNode(f);
+
+        try {
+            dag.addEdge(a, b);
+            dag.addEdge(b, c);
+            dag.addEdge(d, e);
+            dag.addEdge(e, f);
             System.out.println(dag.validate());
             Assert.assertTrue(false);
         } catch (Exception exp) {
