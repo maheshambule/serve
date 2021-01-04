@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.pytorch.serve.archive.DownloadArchiveException;
 import org.pytorch.serve.archive.model.ModelException;
+import org.pytorch.serve.archive.workflow.WorkflowException;
 import org.pytorch.serve.archive.workflow.WorkflowNotFoundException;
 import org.pytorch.serve.ensemble.WorkFlow;
 import org.pytorch.serve.http.ConflictStatusException;
@@ -46,7 +47,7 @@ public class WorkflowMgmtRequestHandler extends HttpRequestHandlerChain {
             FullHttpRequest req,
             QueryStringDecoder decoder,
             String[] segments)
-            throws ModelException, DownloadArchiveException {
+            throws ModelException, DownloadArchiveException, WorkflowException {
         if (isManagementReq(segments)) {
             if (!"workflows".equals(segments[1])) {
                 throw new ResourceNotFoundException();
@@ -114,37 +115,35 @@ public class WorkflowMgmtRequestHandler extends HttpRequestHandlerChain {
         NettyUtils.sendJsonResponse(ctx, list);
     }
 
-    private void handleDescribeWorkflow(ChannelHandlerContext ctx, String workflowName) {
+    private void handleDescribeWorkflow(ChannelHandlerContext ctx, String workflowName)
+            throws WorkflowNotFoundException {
         ArrayList<DescribeWorkflowResponse> resp = new ArrayList<>();
         WorkFlow workFlow = WorkflowManager.getInstance().getWorkflow(workflowName);
+        if (workFlow == null) {
+            throw new WorkflowNotFoundException("Workflow not found: " + workflowName);
+        }
         resp.add(createWorkflowResponse(workflowName, workFlow));
         NettyUtils.sendJsonResponse(ctx, resp);
     }
 
     private void handleRegisterWorkflows(
-            ChannelHandlerContext ctx, QueryStringDecoder decoder, FullHttpRequest req) {
-        StatusResponse status = new StatusResponse();
+            ChannelHandlerContext ctx, QueryStringDecoder decoder, FullHttpRequest req)
+            throws ConflictStatusException, WorkflowException {
+        RegisterWorkflowRequest registerWFRequest = parseRequest(req, decoder);
 
-        try {
-            RegisterWorkflowRequest registerWFRequest = parseRequest(req, decoder);
+        StatusResponse status =
+                WorkflowManager.getInstance()
+                        .registerWorkflow(
+                                registerWFRequest.getWorkflowName(),
+                                registerWFRequest.getWorkflowUrl(),
+                                registerWFRequest.getResponseTimeout(),
+                                true);
 
-            status =
-                    WorkflowManager.getInstance()
-                            .registerWorkflow(
-                                    registerWFRequest.getWorkflowName(),
-                                    registerWFRequest.getWorkflowUrl(),
-                                    registerWFRequest.getResponseTimeout(),
-                                    true);
-        } catch (ConflictStatusException e) {
-            status.setHttpResponseCode(HttpURLConnection.HTTP_INTERNAL_ERROR);
-            status.setStatus("Error while registering workflow. Details: " + e.getMessage());
-            status.setE(e);
-        } finally {
-            sendResponse(ctx, status);
-        }
+        sendResponse(ctx, status);
     }
 
-    private void handleUnregisterWorkflow(ChannelHandlerContext ctx, String workflowName) {
+    private void handleUnregisterWorkflow(ChannelHandlerContext ctx, String workflowName)
+            throws WorkflowNotFoundException {
         StatusResponse statusResponse = null;
         try {
             WorkflowManager.getInstance().unregisterWorkflow(workflowName, null);
@@ -158,6 +157,7 @@ public class WorkflowMgmtRequestHandler extends HttpRequestHandlerChain {
             statusResponse =
                     new StatusResponse(msg, HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
         }
+
         NettyUtils.sendJsonResponse(ctx, statusResponse);
     }
 

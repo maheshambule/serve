@@ -36,8 +36,9 @@ import org.pytorch.serve.ensemble.Node;
 import org.pytorch.serve.ensemble.NodeOutput;
 import org.pytorch.serve.ensemble.WorkFlow;
 import org.pytorch.serve.ensemble.WorkflowModel;
+import org.pytorch.serve.http.BadRequestException;
+import org.pytorch.serve.http.ConflictStatusException;
 import org.pytorch.serve.http.InternalServerException;
-import org.pytorch.serve.http.ResourceNotFoundException;
 import org.pytorch.serve.http.StatusResponse;
 import org.pytorch.serve.util.ApiUtils;
 import org.pytorch.serve.util.ConfigManager;
@@ -88,8 +89,15 @@ public final class WorkflowManager {
     }
 
     public StatusResponse registerWorkflow(
-            String workflowName, String url, int responseTimeout, boolean synchronous) {
+            String workflowName, String url, int responseTimeout, boolean synchronous)
+            throws WorkflowException {
+
+        if (url == null) {
+            throw new BadRequestException("Parameter url is required.");
+        }
+
         StatusResponse status = new StatusResponse();
+
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         CompletionService<ModelRegistrationResult> executorCompletionService =
                 new ExecutorCompletionService<>(executorService);
@@ -99,6 +107,13 @@ public final class WorkflowManager {
         try {
             WorkflowArchive archive = createWorkflowArchive(workflowName, url);
             WorkFlow workflow = createWorkflow(archive);
+
+            if (workflowMap.get(workflow.getWorkflowArchive().getWorkflowName()) != null) {
+                throw new ConflictStatusException(
+                        "Workflow "
+                                + workflow.getWorkflowArchive().getWorkflowName()
+                                + " is already registered.");
+            }
 
             Map<String, Node> nodes = workflow.getDag().getNodes();
 
@@ -171,13 +186,13 @@ public final class WorkflowManager {
             status.setHttpResponseCode(HttpURLConnection.HTTP_BAD_REQUEST);
             status.setStatus("Failed to download workflow archive file");
             status.setE(e);
-        } catch (WorkflowException | InvalidDAGException e) {
+        } catch (InvalidDAGException e) {
             status.setHttpResponseCode(HttpURLConnection.HTTP_BAD_REQUEST);
             status.setStatus("Invalid workflow specification");
             status.setE(e);
-        } catch (Exception e) {
-            status.setHttpResponseCode(HttpURLConnection.HTTP_BAD_REQUEST);
-            status.setStatus("Failed to register workflow");
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            status.setHttpResponseCode(HttpURLConnection.HTTP_INTERNAL_ERROR);
+            status.setStatus("Failed to register workflow.");
             status.setE(e);
         } finally {
             executorService.shutdown();
@@ -330,7 +345,8 @@ public final class WorkflowManager {
         return workflowMap.get(workflowName);
     }
 
-    public void predict(ChannelHandlerContext ctx, String wfName, RequestInput input) {
+    public void predict(ChannelHandlerContext ctx, String wfName, RequestInput input)
+            throws WorkflowNotFoundException {
         WorkFlow wf = workflowMap.get(wfName);
         if (wf != null) {
             DagExecutor dagExecutor = new DagExecutor(wf.getDag());
@@ -376,12 +392,16 @@ public final class WorkflowManager {
                             inferenceExecutorService)
                     .exceptionally(
                             ex -> {
+                                String[] error = ex.getMessage().split(":");
                                 NettyUtils.sendError(
-                                        ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR, ex);
+                                        ctx,
+                                        HttpResponseStatus.INTERNAL_SERVER_ERROR,
+                                        new InternalServerException(
+                                                error[error.length - 1].strip()));
                                 return null;
                             });
         } else {
-            throw new ResourceNotFoundException();
+            throw new WorkflowNotFoundException("Workflow not found: " + wfName);
         }
     }
 }

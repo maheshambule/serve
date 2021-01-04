@@ -8,6 +8,7 @@
       <class name="org.pytorch.serve.CoverageTest"/>
       <class name="org.pytorch.serve.ModelServerTest"/>
       <class name="org.pytorch.serve.SnapshotTest"/>
+      <class name="org.pytorch.serve.WorkflowTest"/>
       <class name="org.pytorch.serve.WorkflowSpecificationTest"/>
     </classes>
   </test>
